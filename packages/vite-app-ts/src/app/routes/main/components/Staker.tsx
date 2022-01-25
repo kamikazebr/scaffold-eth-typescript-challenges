@@ -1,5 +1,5 @@
-import { EtherscanProvider, StaticJsonRpcProvider } from '@ethersproject/providers';
-import { transactor, TTransactor } from 'eth-components/functions';
+import { StaticJsonRpcProvider, TransactionRequest, TransactionResponse } from '@ethersproject/providers';
+import { NotificationMessage, transactor, TRawTxError } from 'eth-components/functions';
 import { useBalance, useContractLoader, useEventListener, useGasPrice, useOnRepetition } from 'eth-hooks';
 import { useEthersContext } from 'eth-hooks/context';
 import React, { FC, useContext, useEffect, useState } from 'react';
@@ -13,6 +13,8 @@ import { HumanizeDurationLanguage, HumanizeDuration } from 'humanize-duration-ts
 import { ethers } from 'ethers';
 import { EthComponentsSettingsContext } from 'eth-components/models';
 import { useDexEthPrice } from 'eth-hooks/dapps';
+import { Deferrable } from 'ethers/lib/utils';
+import { TypedEvent } from 'eth-hooks/models/providerTypes';
 
 const langService: HumanizeDurationLanguage = new HumanizeDurationLanguage();
 const humanizer: HumanizeDuration = new HumanizeDuration(langService);
@@ -38,7 +40,48 @@ export const Staker: FC<StakerProps> = (props) => {
   const ethComponentsSettings = useContext(EthComponentsSettingsContext);
   const gasPrice = useGasPrice(ethersContext.chainId, 'fast');
   const ethPrice = useDexEthPrice(mainnetProvider);
-  const tx = transactor(ethComponentsSettings, ethersContext?.signer, gasPrice);
+  // const ethPrice = 1;
+  const txWithoutThrow = transactor(ethComponentsSettings, ethersContext?.signer, gasPrice, undefined, false);
+  const txWithThrow = transactor(
+    ethComponentsSettings,
+    ethersContext?.signer,
+    gasPrice,
+    undefined,
+    true
+    // (err: TRawTxError, notifMessage: NotificationMessage) => {
+    //   const errorContent = err.data ? err.data.message ?? err.message : err.message;
+    //   const extractedReason = new RegExp(/reverted with reason string \'(.*?)\'/).exec(errorContent);
+
+    //   if (extractedReason && extractedReason.length > 0) {
+    //     console.log('desc:', extractedReason[1]);
+    //     notifMessage.description = extractedReason[1];
+    //   }
+    //   return notifMessage;
+    // }
+  );
+
+  const tx = async (
+    tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
+    callback?: ((_param: any) => void) | undefined
+  ) => {
+    try {
+      if (!txWithThrow) {
+        throw new Error("txWithoutCatch it's not defined");
+      }
+      return await txWithThrow(tx, callback);
+    } catch (e) {
+      const err = e as TRawTxError;
+
+      const errorContent = err.data ? err.data.message ?? err.message : err.message;
+      const extractedReason = new RegExp(/reverted with reason string \'(.*?)\'/).exec(errorContent);
+
+      console.log('TxERR:', errorContent);
+      console.log('extractedReason:', extractedReason);
+      if (extractedReason && extractedReason.length > 0) {
+        console.log('desc:', extractedReason[1]);
+      }
+    }
+  };
 
   const [threshold, setThreshold] = useState<BigNumber>();
   useEffect(() => {
@@ -120,9 +163,12 @@ export const Staker: FC<StakerProps> = (props) => {
       <div style={{ padding: 8 }}>
         <Button
           type={'default'}
-          onClick={() => {
+          onClick={async () => {
             if (tx) {
-              tx(stakeContractWrite.execute());
+              const result = (await tx(stakeContractWrite.execute())) as TransactionResponse | undefined;
+              // if (result) {
+              console.log('result', result?.value);
+              // }
             }
           }}>
           📡 Execute!
@@ -158,11 +204,9 @@ export const Staker: FC<StakerProps> = (props) => {
         <List
           bordered
           dataSource={stakeEvents}
-          renderItem={(item: any) => {
+          renderItem={(item: TypedEvent<ethers.utils.Result>) => {
             return (
-              <List.Item
-                key={item.blockNumber + '_' + item.sender + '_' + item.purpose}
-                style={{ display: 'flex', justifyContent: 'center' }}>
+              <List.Item key={'key_' + item.blockNumber} style={{ display: 'flex', justifyContent: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '.5rem' }}>
                   <Address address={item.args[0]} ensProvider={mainnetProvider} fontSize={16} />
                   <div>→</div>

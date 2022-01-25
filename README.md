@@ -68,9 +68,9 @@ uint256 public constant threshold = 1 ether;
 
 #### 🥅 Goals
 
-- [ ] Do you see the balance of the `Staker` contract go up when you `stake()`?
-- [ ] Is your `balance` correctly tracked?
-- [ ] Do you see the events in the `Staker UI` tab?
+- [x] Do you see the balance of the `Staker` contract go up when you `stake()`?
+- [x] Is your `balance` correctly tracked?
+- [x] Do you see the events in the `Staker UI` tab?
 
 ---
 
@@ -104,9 +104,9 @@ If the balance is less than the `threshold`, you want to set a `openForWithdraw`
 
 #### 🥅 Goals
 
-- [ ] Can you see `timeLeft` counting down in the `Staker UI` tab when you trigger a transaction with the faucet?
-- [ ] If you `stake()` enough ETH before the `deadline`, does it call `complete()`?
-- [ ] If you don't `stake()` enough can you `withdraw(address payable)` your funds?
+- [x] Can you see `timeLeft` counting down in the `Staker UI` tab when you trigger a transaction with the faucet?
+- [x] If you `stake()` enough ETH before the `deadline`, does it call `complete()`?
+- [x] If you don't `stake()` enough can you `withdraw(address payable)` your funds?
 
 ---
 
@@ -120,21 +120,21 @@ If the balance is less than the `threshold`, you want to set a `openForWithdraw`
 
 #### 🥅 Goals
 
-- [ ] If you send ETH directly to the contract address does it update your `balance`?
+- [x] If you send ETH directly to the contract address does it update your `balance`?
 
 ---
 
 ## ⚔️ Side Quests
 
-- [ ] Can execute get called more than once, and is that okay?
-- [ ] Can you stake and withdraw freely after the `deadline`, and is that okay?
+- [x] Can execute get called more than once, and is that okay?
+- [x] Can you stake and withdraw freely after the `deadline`, and is that okay?
 - [ ] What are other implications of _anyone_ being able to withdraw for someone?
 
 ---
 
 ## 🐸 It's a trap!
 
-- [ ] Make sure funds can't get trapped in the contract! **Try sending funds after you have executed! What happens?**
+- [x] Make sure funds can't get trapped in the contract! **Try sending funds after you have executed! What happens?**
 - [ ] Try to create a [modifier](https://solidity-by-example.org/function-modifier/) called `notCompleted`. It will check that `ExampleExternalContract` is not completed yet. Use it to protect your `execute` and `withdraw` functions.
 
 ---

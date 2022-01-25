@@ -2204,7 +2204,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.2.0
     eslint-plugin-tailwind: ^0.2.1
     eslint-plugin-unused-imports: ^1.1.5
-    eth-components: 2.2.1
+    eth-components: 2.3.0
     eth-hooks: 3.4.0
     ethereum-cryptography: ^0.1.3
     ethers: ^5.4.1
@@ -5692,26 +5692,26 @@ __metadata:
   linkType: hard
 
 "bnc-notify@npm:^1.9.1":
-  version: 1.9.1
-  resolution: "bnc-notify@npm:1.9.1"
+  version: 1.9.2
+  resolution: "bnc-notify@npm:1.9.2"
   dependencies:
     bignumber.js: ^9.0.0
     bnc-sdk: ^3.5.0
     lodash.debounce: ^4.0.8
     regenerator-runtime: ^0.13.3
     uuid: ^3.3.3
-  checksum: 534590e5cf705ef89fc99629ebfed230b27e6381310987c1d6a59c1c33ac4a3f36a1239b5b6480eeb9931ddb5e6e2dc0c8b366bad9e1a4022e17acde4765b881
+  checksum: ccdeda606d17a56cc3d01d43f296cd293bde6667701d7232a4e1f1992c29d934f63a085f523454aafd617ab68a196a64788735c7cf20591ebf7a7850f31bb328
   languageName: node
   linkType: hard
 
 "bnc-sdk@npm:^3.5.0":
-  version: 3.7.0
-  resolution: "bnc-sdk@npm:3.7.0"
+  version: 3.7.1
+  resolution: "bnc-sdk@npm:3.7.1"
   dependencies:
     crypto-es: ^1.2.2
     rxjs: ^6.6.3
     sturdy-websocket: ^0.1.12
-  checksum: 1fd7e13c4f9104dc022a4ec5735272dddf0c432cbec524fe671d5925bbceae67d726252cf10eed397cf14926d2adfc89cd4b99b6cb3bde73820375de7300cd96
+  checksum: 3fe0ec21337fcccdd46040a2b73be13ecbfa6ed9e0c77e7e2aa49611e8f99f922f199c0614687a7cf1c68666e7a129a844726457343cff07c80e3e2278cb9353
   languageName: node
   linkType: hard
 
@@ -9015,9 +9015,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-components@npm:2.2.1":
-  version: 2.2.1
-  resolution: "eth-components@npm:2.2.1"
+"eth-components@npm:2.3.0":
+  version: 2.3.0
+  resolution: "eth-components@npm:2.3.0"
   dependencies:
     "@ethersproject/abstract-signer": ^5.4.0
     "@ethersproject/address": ^5.4.0
@@ -9045,7 +9045,7 @@ __metadata:
     react: ">=17.0.2"
     react-css-theme-switcher: ^0.3.0
     react-dom: ">=17.0.2"
-  checksum: dfabe9c876a7a3f969f19e5b9a44d9c2b4ed79de1e01c92cc06013c2e474e96abba6f781cb47898d5b9f5c594ed0d5c856bfa376d774d58622574a3c33a83e21
+  checksum: 6ae8a4c19fcb1a64dc219d92ca39a09ee0b57d7a2aea581f9062c6aa7e03b0680de3f995c2ba38e02633ee8953aa1d30705d7115328bd571701889b0087b0bef
   languageName: node
   linkType: hard
 
@@ -22265,7 +22265,16 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"usehooks-ts@npm:^1.0.4, usehooks-ts@npm:^1.0.5":
+"usehooks-ts@npm:^1.0.4":
+  version: 1.2.0
+  resolution: "usehooks-ts@npm:1.2.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 290ef267ff5b2de5fe3789b8e3b0e36366a8aa42a5ee6aa1c339cef673233643c89aa18aef5254bfea7ef6487a767e75ca452e2b029e4a683c8fc907e780bf9c
+  languageName: node
+  linkType: hard
+
+"usehooks-ts@npm:^1.0.5":
   version: 1.0.6
   resolution: "usehooks-ts@npm:1.0.6"
   peerDependencies:
