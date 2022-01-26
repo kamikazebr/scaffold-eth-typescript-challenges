@@ -47,17 +47,20 @@ export const Staker: FC<StakerProps> = (props) => {
     ethersContext?.signer,
     gasPrice,
     undefined,
-    true
-    // (err: TRawTxError, notifMessage: NotificationMessage) => {
-    //   const errorContent = err.data ? err.data.message ?? err.message : err.message;
-    //   const extractedReason = new RegExp(/reverted with reason string \'(.*?)\'/).exec(errorContent);
+    true,
+    (err: TRawTxError, notifMessage: NotificationMessage) => {
+      const errorContent = err.data ? err.data.message ?? err.message : err.message;
+      const extractedReason = new RegExp(
+        /(\\\"message\\\":\\\"(.*?)\\\"[\},])|(reverted with reason string '(.*?)')/
+      ).exec(errorContent);
 
-    //   if (extractedReason && extractedReason.length > 0) {
-    //     console.log('desc:', extractedReason[1]);
-    //     notifMessage.description = extractedReason[1];
-    //   }
-    //   return notifMessage;
-    // }
+      if (extractedReason && extractedReason.length > 0) {
+        const desc = extractedReason[2] ?? extractedReason[4];
+        console.log('desc:', desc);
+        notifMessage.description = desc;
+      }
+      return notifMessage;
+    }
   );
 
   const tx = async (

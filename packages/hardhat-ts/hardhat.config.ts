@@ -36,7 +36,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 // Select the network you want to deploy to here:
 //
-const defaultNetwork = 'localhost';
+const defaultNetwork = 'rinkeby';
 
 const getMnemonic = () => {
   try {
@@ -74,7 +74,7 @@ const config: HardhatUserConfig = {
       // },
     },
     rinkeby: {
-      url: 'https://rinkeby.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad', // <---- YOUR INFURA ID! (or it won't work)
+      url: 'https://rinkeby.infura.io/v3/ba8a73e283eb4b9eafd25f5fdbfc1717', // <---- YOUR INFURA ID! (or it won't work)
       accounts: {
         mnemonic: getMnemonic(),
       },
@@ -159,7 +159,7 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     // Add your api key here
-    apiKey: 'DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW',
+    apiKey: 'QMRM6VT582IBNY8GPI9XB1N5DSFRJ4YHTP',
   },
 };
 export default config;

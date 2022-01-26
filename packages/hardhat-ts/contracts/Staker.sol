@@ -17,6 +17,11 @@ contract Staker {
 
   event Stake(address who, uint256 amount);
 
+  modifier notCompleted() {
+    require(exampleExternalContract.completed() == false, 'Already Completed');
+    _;
+  }
+
   constructor(address exampleExternalContractAddress) {
     exampleExternalContract = ExampleExternalContract(exampleExternalContractAddress);
   }
@@ -30,7 +35,7 @@ contract Staker {
 
   // After some `deadline` allow anyone to call an `execute()` function
   //  It should either call `exampleExternalContract.complete{value: address(this).balance}()` to send all the value
-  function execute() public {
+  function execute() public notCompleted {
     require(block.timestamp >= deadline, 'Need wait dealine expire to execute');
 
     uint256 stakerBalance = address(this).balance;
@@ -43,7 +48,7 @@ contract Staker {
   }
 
   // if the `threshold` was not met, allow everyone to call a `withdraw()` function
-  function withdraw(address payable _to) public {
+  function withdraw(address payable _to) public notCompleted {
     require(block.timestamp >= deadline, 'Need wait reach deadline to withdraw');
     require(openForWithdraw, 'We cannot withdraw,need execute first.');
 
@@ -62,6 +67,7 @@ contract Staker {
       return 0;
     }
     remainTimeLeft = deadline - block.timestamp;
+    remainTimeLeft = remainTimeLeft < 0 ? 0 : remainTimeLeft;
   }
 
   // Add the `receive()` special function that receives eth and calls stake()
