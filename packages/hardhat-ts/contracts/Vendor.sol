@@ -7,7 +7,7 @@ import './YourToken.sol';
 contract Vendor {
   YourToken yourToken;
 
-  constructor(address tokenAddress) public {
+  constructor(address tokenAddress) {
     yourToken = YourToken(tokenAddress);
   }
 
