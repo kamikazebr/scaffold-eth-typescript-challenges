@@ -27,15 +27,15 @@ contract Vendor is Ownable {
     }
   }
 
-  // ToDo: create a withdraw() function that lets the owner withdraw ETH
-  function withdraw() public onlyOwner {
-    uint256 balance = address(this).balance;
-    console.log('Vendor balance is %s tokens', balance);
-    require(balance > 0, 'Withdraw not have enough balance');
+  // Disable Withdraw to keep liquidity
+  // function withdraw() public onlyOwner {
+  //   uint256 balance = address(this).balance;
+  //   console.log('Vendor balance is %s tokens', balance);
+  //   require(balance > 0, 'Withdraw not have enough balance');
 
-    (bool sent, ) = owner().call{value: balance}('');
-    require(sent, 'Withdraw failed');
-  }
+  //   (bool sent, ) = owner().call{value: balance}('');
+  //   require(sent, 'Withdraw failed');
+  // }
 
   function sellTokens(uint256 amount) public {
     yourToken.transferFrom(msg.sender, address(this), amount);
