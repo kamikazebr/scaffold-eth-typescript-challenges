@@ -41,7 +41,15 @@ export const YourToken: FC<IYourTokenProps> = (props) => {
   const ethComponentsSettings = useContext(EthComponentsSettingsContext);
   const gasPrice = useGasPrice(ethersContext.chainId, 'fast');
   const ethPrice = useDexEthPrice(mainnetProvider);
-  const tx = transactor(ethComponentsSettings, ethersContext?.signer, gasPrice);
+  const tx = transactor(ethComponentsSettings, ethersContext?.signer, gasPrice,undefined,false,(err, notificationMessage)=>{
+    let extractedReason = err.data?.message?.match(/reverted with reason string \'(.*?)\'/)
+    if (!extractedReason)
+      extractedReason = err.message?.match(/reverted with reason string \'(.*?)\'/)
+    if (extractedReason && extractedReason.length > 0) {
+      notificationMessage.description = extractedReason[1];
+    }
+    return notificationMessage
+  });
 
   const [yourTokenBalance, setYourTokenBalance] = useState<BigNumber>();
   useOnRepetition(
@@ -222,7 +230,7 @@ export const YourToken: FC<IYourTokenProps> = (props) => {
           </div>
         </Card>
       </div>
-      {/* Extra UI for buying the tokens back from the user using "approve" and "sellTokens"
+      {/* /* Extra UI for buying the tokens back from the user using "approve" and "sellTokens" */}
       <Divider />
       <div style={{ padding: 8, marginTop: 32, width: 300, margin: 'auto' }}>
         <Card title="Sell Tokens">
@@ -281,7 +289,6 @@ export const YourToken: FC<IYourTokenProps> = (props) => {
           )}
         </Card>
       </div>
-      */}
       <div style={{ padding: 8, marginTop: 32 }}>
         <div>Vendor Token Balance:</div>
         <Balance balance={vendorTokenBalance} address={undefined} />

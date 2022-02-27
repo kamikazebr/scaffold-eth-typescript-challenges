@@ -1,6 +1,6 @@
 pragma solidity >=0.8.0 <0.9.0;
 // SPDX-License-Identifier: MIT
-
+import 'hardhat/console.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import './YourToken.sol';
 
@@ -28,14 +28,18 @@ contract Vendor is Ownable {
   }
 
   // ToDo: create a withdraw() function that lets the owner withdraw ETH
-  function withdraw() public payable onlyOwner {
+  function withdraw() public onlyOwner {
     uint256 balance = address(this).balance;
+    console.log('Vendor balance is %s tokens', balance);
     require(balance > 0, 'Withdraw not have enough balance');
-    require(balance >= msg.value, 'Value is higher than in balance');
 
-    (bool sent, ) = owner().call{value: msg.value}('');
+    (bool sent, ) = owner().call{value: balance}('');
     require(sent, 'Withdraw failed');
   }
 
-  // ToDo: create a sellTokens() function:
+  function sellTokens(uint256 amount) public {
+    yourToken.transferFrom(msg.sender, address(this), amount);
+    (bool sent, ) = msg.sender.call{value: amount / tokensPerEth}('');
+    require(sent, 'sellTokens failed');
+  }
 }
