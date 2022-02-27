@@ -180,7 +180,7 @@ export const YourToken: FC<IYourTokenProps> = (props) => {
   return (
     <>
       <div style={{ padding: 8, marginTop: 32, width: 300, margin: 'auto' }}>
-        <Card title="Your Tokens" extra={<a href="#">code</a>}>
+        <Card title="Hugs Tokens" extra={<a href="#">code</a>}>
           <div style={{ padding: 8 }}>
             <Balance balance={yourTokenBalance} address={undefined} price={ethPrice} />
           </div>
